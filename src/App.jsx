@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 
 function App() {
   const [students, setStudents] = useState([
     {
       id: 1,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
+      name: 'Sakib',
+      email: 'sakib@example.com',
       age: 20,
       course: 'Computer Science',
       phone: '+1234567890',
@@ -14,11 +14,11 @@ function App() {
     },
     {
       id: 2,
-      name: 'Jane Smith',
-      email: 'jane.smith@example.com',
+      name: 'Mili',
+      email: 'mili@example.com',
       age: 22,
       course: 'Mathematics',
-      phone: '+1987654321',
+      phone: '+0987654321',
       address: '456 Oak Ave, Town'
     }
   ]);
@@ -54,7 +54,7 @@ function App() {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.name.trim()) newErrors.name = 'Name is required';
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
@@ -68,18 +68,16 @@ function App() {
     if (!formData.phone.trim()) newErrors.phone = 'Phone is required';
     if (!formData.address.trim()) newErrors.address = 'Address is required';
 
-    // Check for duplicate email when creating new student
     if (!isEditing) {
-      const emailExists = students.some(student => 
+      const emailExists = students.some(student =>
         student.email.toLowerCase() === formData.email.toLowerCase()
       );
       if (emailExists) {
         newErrors.email = 'Email already exists';
       }
     } else {
-      // When editing, check if email exists in other students
-      const emailExists = students.some(student => 
-        student.email.toLowerCase() === formData.email.toLowerCase() && 
+      const emailExists = students.some(student =>
+        student.email.toLowerCase() === formData.email.toLowerCase() &&
         student.id !== parseInt(formData.id)
       );
       if (emailExists) {
@@ -97,8 +95,7 @@ function App() {
       ...prev,
       [name]: value
     }));
-    
-    // Clear error when user starts typing
+
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -111,14 +108,12 @@ function App() {
     if (!validateForm()) return;
 
     if (isEditing) {
-      // Update existing student
-      setStudents(prev => prev.map(student => 
-        student.id === parseInt(formData.id) 
+      setStudents(prev => prev.map(student =>
+        student.id === parseInt(formData.id)
           ? { ...formData, id: parseInt(formData.id), age: parseInt(formData.age) }
           : student
       ));
     } else {
-      // Add new student
       const newId = Math.max(...students.map(s => s.id), 0) + 1;
       const newStudent = {
         ...formData,
@@ -152,300 +147,67 @@ function App() {
   };
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      backgroundColor: '#f5f5f5', 
-      padding: '20px',
-      fontFamily: 'Arial, sans-serif'
-    }}>
-      <div style={{ 
-        maxWidth: '1200px', 
-        margin: '0 auto', 
-        backgroundColor: 'white', 
-        borderRadius: '8px', 
-        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-        overflow: 'hidden'
-      }}>
-        {/* Header */}
-        <div style={{ 
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
-          padding: '20px', 
-          color: 'white',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}>
-          <h1 style={{ margin: 0, fontSize: '24px' }}>Student Management System</h1>
-          <button
-            onClick={handleAddNew}
-            style={{
-              backgroundColor: 'white',
-              color: '#667eea',
-              border: 'none',
-              padding: '10px 20px',
-              borderRadius: '5px',
-              cursor: 'pointer',
-              fontWeight: 'bold'
-            }}
-          >
-            + Add Student
-          </button>
+    <div>
+      {/* Navigation Bar */}
+      <nav>
+        <div>
+          <div className="brand">Student Management System</div>
+          <div className="nav-links">
+            <div className="active">Students</div>
+            <div>Courses</div>
+            <div>Reports</div>
+            <div>Settings</div>
+          </div>
+          <div className="user-info">
+            <div>Welcome, Admin</div>
+            <div className="user-avatar">A</div>
+          </div>
         </div>
+      </nav>
 
-        <div style={{ padding: '20px' }}>
-          {/* Form Section */}
-          {showForm && (
-            <div style={{ 
-              marginBottom: '30px', 
-              backgroundColor: '#f8f9fa', 
-              padding: '20px', 
-              borderRadius: '8px',
-              borderLeft: '4px solid #667eea'
-            }}>
-              <h2 style={{ marginTop: 0, color: '#333' }}>
-                {isEditing ? 'Edit Student' : 'Add New Student'}
-              </h2>
-              
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '15px' }}>
-                <div>
-                  <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: '#555' }}>
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    style={{
-                      width: '100%',
-                      padding: '10px',
-                      border: errors.name ? '2px solid #e74c3c' : '1px solid #ddd',
-                      borderRadius: '5px',
-                      fontSize: '14px',
-                      boxSizing: 'border-box'
-                    }}
-                    placeholder="Enter student name"
-                  />
-                  {errors.name && <p style={{ color: '#e74c3c', fontSize: '12px', margin: '5px 0 0 0' }}>{errors.name}</p>}
-                </div>
+      <main className="main-container">
+        <div className="card">
+          <div className="card-header">
+            <h1>Student Management System</h1>
+            <button onClick={handleAddNew}>+ Add Student</button>
+          </div>
 
-                <div>
-                  <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: '#555' }}>
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    style={{
-                      width: '100%',
-                      padding: '10px',
-                      border: errors.email ? '2px solid #e74c3c' : '1px solid #ddd',
-                      borderRadius: '5px',
-                      fontSize: '14px',
-                      boxSizing: 'border-box'
-                    }}
-                    placeholder="Enter email address"
-                  />
-                  {errors.email && <p style={{ color: '#e74c3c', fontSize: '12px', margin: '5px 0 0 0' }}>{errors.email}</p>}
-                </div>
+          <section className="students-table">
+            <h2>Students List ({students.length} students)</h2>
 
-                <div>
-                  <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: '#555' }}>
-                    Age *
-                  </label>
-                  <input
-                    type="number"
-                    name="age"
-                    value={formData.age}
-                    onChange={handleInputChange}
-                    style={{
-                      width: '100%',
-                      padding: '10px',
-                      border: errors.age ? '2px solid #e74c3c' : '1px solid #ddd',
-                      borderRadius: '5px',
-                      fontSize: '14px',
-                      boxSizing: 'border-box'
-                    }}
-                    placeholder="Enter age"
-                    min="1"
-                    max="120"
-                  />
-                  {errors.age && <p style={{ color: '#e74c3c', fontSize: '12px', margin: '5px 0 0 0' }}>{errors.age}</p>}
-                </div>
-
-                <div>
-                  <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: '#555' }}>
-                    Course *
-                  </label>
-                  <input
-                    type="text"
-                    name="course"
-                    value={formData.course}
-                    onChange={handleInputChange}
-                    style={{
-                      width: '100%',
-                      padding: '10px',
-                      border: errors.course ? '2px solid #e74c3c' : '1px solid #ddd',
-                      borderRadius: '5px',
-                      fontSize: '14px',
-                      boxSizing: 'border-box'
-                    }}
-                    placeholder="Enter course name"
-                  />
-                  {errors.course && <p style={{ color: '#e74c3c', fontSize: '12px', margin: '5px 0 0 0' }}>{errors.course}</p>}
-                </div>
-
-                <div>
-                  <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: '#555' }}>
-                    Phone Number *
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    style={{
-                      width: '100%',
-                      padding: '10px',
-                      border: errors.phone ? '2px solid #e74c3c' : '1px solid #ddd',
-                      borderRadius: '5px',
-                      fontSize: '14px',
-                      boxSizing: 'border-box'
-                    }}
-                    placeholder="Enter phone number"
-                  />
-                  {errors.phone && <p style={{ color: '#e74c3c', fontSize: '12px', margin: '5px 0 0 0' }}>{errors.phone}</p>}
-                </div>
-
-                <div>
-                  <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: '#555' }}>
-                    Address *
-                  </label>
-                  <input
-                    type="text"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    style={{
-                      width: '100%',
-                      padding: '10px',
-                      border: errors.address ? '2px solid #e74c3c' : '1px solid #ddd',
-                      borderRadius: '5px',
-                      fontSize: '14px',
-                      boxSizing: 'border-box'
-                    }}
-                    placeholder="Enter address"
-                  />
-                  {errors.address && <p style={{ color: '#e74c3c', fontSize: '12px', margin: '5px 0 0 0' }}>{errors.address}</p>}
-                </div>
-              </div>
-
-              <div style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
-                <button
-                  onClick={handleSubmit}
-                  style={{
-                    backgroundColor: '#667eea',
-                    color: 'white',
-                    border: 'none',
-                    padding: '12px 24px',
-                    borderRadius: '5px',
-                    cursor: 'pointer',
-                    fontWeight: 'bold'
-                  }}
-                >
-                  {isEditing ? 'Update Student' : 'Add Student'}
-                </button>
-                <button
-                  onClick={resetForm}
-                  style={{
-                    backgroundColor: '#6c757d',
-                    color: 'white',
-                    border: 'none',
-                    padding: '12px 24px',
-                    borderRadius: '5px',
-                    cursor: 'pointer',
-                    fontWeight: 'bold'
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Students Table */}
-          <div>
-            <h2 style={{ color: '#333', marginBottom: '15px' }}>
-              Students List ({students.length} students)
-            </h2>
-            
             {students.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '50px', color: '#666' }}>
-                <p style={{ fontSize: '18px', marginBottom: '10px' }}>No students found</p>
+              <div className="no-data">
+                <p>No students found</p>
                 <p>Click "Add Student" to create your first student record</p>
               </div>
             ) : (
               <div style={{ overflowX: 'auto' }}>
-                <table style={{ 
-                  width: '100%', 
-                  borderCollapse: 'collapse', 
-                  backgroundColor: 'white',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-                }}>
+                <table>
                   <thead>
-                    <tr style={{ backgroundColor: '#f8f9fa' }}>
-                      <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #dee2e6', fontWeight: 'bold' }}>ID</th>
-                      <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #dee2e6', fontWeight: 'bold' }}>Name</th>
-                      <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #dee2e6', fontWeight: 'bold' }}>Email</th>
-                      <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #dee2e6', fontWeight: 'bold' }}>Age</th>
-                      <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #dee2e6', fontWeight: 'bold' }}>Course</th>
-                      <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #dee2e6', fontWeight: 'bold' }}>Phone</th>
-                      <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #dee2e6', fontWeight: 'bold' }}>Address</th>
-                      <th style={{ padding: '12px', textAlign: 'center', borderBottom: '2px solid #dee2e6', fontWeight: 'bold' }}>Actions</th>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Age</th>
+                      <th>Course</th>
+                      <th>Phone</th>
+                      <th>Address</th>
+                      <th style={{ textAlign: 'center' }}>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {students.map((student, index) => (
-                      <tr key={student.id} style={{ backgroundColor: index % 2 === 0 ? 'white' : '#f8f9fa' }}>
-                        <td style={{ padding: '12px', borderBottom: '1px solid #dee2e6' }}>{student.id}</td>
-                        <td style={{ padding: '12px', borderBottom: '1px solid #dee2e6', fontWeight: 'bold' }}>{student.name}</td>
-                        <td style={{ padding: '12px', borderBottom: '1px solid #dee2e6', color: '#666' }}>{student.email}</td>
-                        <td style={{ padding: '12px', borderBottom: '1px solid #dee2e6' }}>{student.age}</td>
-                        <td style={{ padding: '12px', borderBottom: '1px solid #dee2e6' }}>{student.course}</td>
-                        <td style={{ padding: '12px', borderBottom: '1px solid #dee2e6', color: '#666' }}>{student.phone}</td>
-                        <td style={{ padding: '12px', borderBottom: '1px solid #dee2e6', color: '#666' }}>{student.address}</td>
-                        <td style={{ padding: '12px', borderBottom: '1px solid #dee2e6', textAlign: 'center' }}>
-                          <button
-                            onClick={() => handleEdit(student)}
-                            style={{
-                              backgroundColor: '#ffc107',
-                              color: 'white',
-                              border: 'none',
-                              padding: '6px 12px',
-                              borderRadius: '3px',
-                              cursor: 'pointer',
-                              marginRight: '5px',
-                              fontSize: '12px'
-                            }}
-                          >
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => handleDelete(student.id)}
-                            style={{
-                              backgroundColor: '#dc3545',
-                              color: 'white',
-                              border: 'none',
-                              padding: '6px 12px',
-                              borderRadius: '3px',
-                              cursor: 'pointer',
-                              fontSize: '12px'
-                            }}
-                          >
-                            Delete
-                          </button>
+                      <tr key={student.id} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
+                        <td>{student.id}</td>
+                        <td className="bold">{student.name}</td>
+                        <td className="gray">{student.email}</td>
+                        <td>{student.age}</td>
+                        <td>{student.course}</td>
+                        <td className="gray">{student.phone}</td>
+                        <td className="gray">{student.address}</td>
+                        <td style={{ textAlign: 'center' }}>
+                          <button className="edit-btn" onClick={() => handleEdit(student)}>Edit</button>
+                          <button className="delete-btn" onClick={() => handleDelete(student.id)}>Delete</button>
                         </td>
                       </tr>
                     ))}
@@ -453,11 +215,111 @@ function App() {
                 </table>
               </div>
             )}
+          </section>
+        </div>
+      </main>
+
+      {/* Full Screen Modal Form */}
+      {showForm && (
+        <div className="modal-overlay" onClick={resetForm}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <h2>{isEditing ? 'Edit Student' : 'Add New Student'}</h2>
+
+            <div className="form-grid">
+              <div className="form-field">
+                <label>Full Name *</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="Enter student name"
+                  className={errors.name ? 'error' : ''}
+                />
+                {errors.name && <p className="error-text">{errors.name}</p>}
+              </div>
+
+              <div className="form-field">
+                <label>Email Address *</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Enter email address"
+                  className={errors.email ? 'error' : ''}
+                />
+                {errors.email && <p className="error-text">{errors.email}</p>}
+              </div>
+
+              <div className="form-field">
+                <label>Age *</label>
+                <input
+                  type="number"
+                  name="age"
+                  value={formData.age}
+                  onChange={handleInputChange}
+                  placeholder="Enter age"
+                  min="1"
+                  max="120"
+                  className={errors.age ? 'error' : ''}
+                />
+                {errors.age && <p className="error-text">{errors.age}</p>}
+              </div>
+
+              <div className="form-field">
+                <label>Course *</label>
+                <input
+                  type="text"
+                  name="course"
+                  value={formData.course}
+                  onChange={handleInputChange}
+                  placeholder="Enter course name"
+                  className={errors.course ? 'error' : ''}
+                />
+                {errors.course && <p className="error-text">{errors.course}</p>}
+              </div>
+
+              <div className="form-field">
+                <label>Phone Number *</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="Enter phone number"
+                  className={errors.phone ? 'error' : ''}
+                />
+                {errors.phone && <p className="error-text">{errors.phone}</p>}
+              </div>
+
+              <div className="form-field">
+                <label>Address *</label>
+                <input
+                  type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  placeholder="Enter address"
+                  className={errors.address ? 'error' : ''}
+                />
+                {errors.address && <p className="error-text">{errors.address}</p>}
+              </div>
+            </div>
+
+            <div className="modal-buttons">
+              <button className="submit-btn" onClick={handleSubmit}>
+                {isEditing ? 'Update Student' : 'Add Student'}
+              </button>
+              <button className="cancel-btn" onClick={resetForm}>
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

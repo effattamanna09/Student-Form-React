@@ -1,41 +1,322 @@
-#root {
-  max-width: 1280px;
+/* Reset */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  width: 100%;
+}
+
+/* Navigation Bar */
+nav {
+  background-color: #2c3e50;
+  padding: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav > div {
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  flex-wrap: wrap;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.brand {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  padding: 15px 0;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav-links {
+  display: flex;
+  gap: 25px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.nav-links > div {
+  padding: 15px 0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.nav-links .active {
+  color: white;
+  border-bottom: 3px solid #3498db;
+  font-weight: 500;
+}
+
+.nav-links div:not(.active) {
+  color: #bdc3c7;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #bdc3c7;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.user-avatar {
+  width: 35px;
+  height: 35px;
+  background-color: #3498db;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Main container */
+.main-container {
+  padding: 20px;
+  min-height: calc(100vh - 60px); /* Adjust for nav height */
 }
 
 .card {
-  padding: 2em;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
 }
 
-.read-the-docs {
-  color: #888;
+/* Header */
+.card-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.card-header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.card-header button {
+  background-color: white;
+  color: #667eea;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.card-header button:hover {
+  background-color: #e6e6ff;
+}
+
+/* Students Table */
+.students-table {
+  padding: 20px;
+}
+
+.students-table h2 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.no-data {
+  text-align: center;
+  padding: 50px;
+  color: #666;
+  font-size: 18px;
+}
+
+/* Table Styles */
+.students-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.students-table thead tr {
+  background-color: #f8f9fa;
+}
+
+.students-table th,
+.students-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+  vertical-align: middle;
+}
+
+.students-table th {
+  font-weight: bold;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.students-table tbody tr.even-row {
+  background-color: white;
+}
+
+.students-table tbody tr.odd-row {
+  background-color: #f8f9fa;
+}
+
+.students-table td.bold {
+  font-weight: bold;
+}
+
+.students-table td.gray {
+  color: #666;
+}
+
+.students-table tbody td:last-child {
+  text-align: center;
+}
+
+.students-table button {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  color: white;
+  margin-right: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.students-table button.edit-btn {
+  background-color: #ffc107;
+}
+
+.students-table button.edit-btn:hover {
+  background-color: #e0a800;
+}
+
+.students-table button.delete-btn {
+  background-color: #dc3545;
+  margin-right: 0;
+}
+
+.students-table button.delete-btn:hover {
+  background-color: #b02a37;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.6);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: white;
+  width: 100vw;
+  height: 100vh;
+  padding: 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: #333;
+  margin-bottom: 20px;
+  user-select: none;
+}
+
+/* Form grid */
+.form-grid {
+  flex: 1;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Form fields */
+.form-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #555;
+  user-select: none;
+}
+
+.form-field input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.form-field input.error {
+  border: 2px solid #e74c3c;
+}
+
+.error-text {
+  color: #e74c3c;
+  font-size: 12px;
+  margin: 5px 0 0 0;
+  user-select: none;
+}
+
+/* Buttons container */
+.modal-buttons {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.modal-buttons button {
+  border: none;
+  padding: 12px 28px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.modal-buttons button.submit-btn {
+  background-color: #667eea;
+  color: white;
+}
+
+.modal-buttons button.submit-btn:hover {
+  background-color: #5561d1;
+}
+
+.modal-buttons button.cancel-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.modal-buttons button.cancel-btn:hover {
+  background-color: #5a6268;
 }
